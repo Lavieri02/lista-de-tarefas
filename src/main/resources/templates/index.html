@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tarefas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+    <div class="container">
+        <h1 class="my-4">Lista de Tarefas Online</h1>
+        
+        <!-- Botão para abrir o modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formTarefaModal">
+            Nova Tarefa
+        </button>
+
+        <!-- Tabela com tarefas -->
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Descrição</th>
+                    <th>Concluída</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="tarefa : ${tarefas}">
+                    <td th:text="${tarefa.id}"></td>
+                    <td th:text="${tarefa.titulo}"></td>
+                    <td th:text="${tarefa.descricao}"></td>
+                    <td th:text="${tarefa.concluida ? 'Sim' : 'Não'}"></td>
+                    <td>
+                        <button type="button" class="btn btn-warning editarBtn" th:attr="data-id=${filme.id}" data-toggle="modal" data-target="#formTarefaModal">
+                            Editar
+                        </button>
+                        <a th:href="@{/tarefas/deletar/{id}(id=${tarefa.id})}" class="btn btn-danger">Deletar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Modal do Bootstrap -->
+        <div class="modal fade" id="formTarefaModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Nova Tarefa</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Formulário para nova tarefa ou editar tarefa existente -->
+                        <form id="formTarefa" th:action="@{/tarefas/salvar}" th:object="${tarefa}" method="post">
+                            <input type="hidden" th:field="*{id}" />
+                            <div class="form-group">
+                                <label for="titulo">Título</label>
+                                <input id="titulo" type="text" class="form-control" th:field="*{titulo}" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="descricao">Descrição</label>
+                                <input id="descricao" type="text" class="form-control" th:field="*{descricao}" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="concluida">Concluída</label>
+                                <input id="concluida" type="checkbox" th:field="*{concluida}" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Script para manipular o modal de edição -->
+    <script src="../static/js/script.js"></script>     
+    </script>
+</body>
+</html>
