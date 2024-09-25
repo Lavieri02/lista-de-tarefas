@@ -4,6 +4,7 @@ package com.pi.lista_de_tarefas.Controller;
 import com.pi.lista_de_tarefas.Model.TarefaEntity;
 import com.pi.lista_de_tarefas.service.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/tarefas")
@@ -23,7 +25,8 @@ public class TarefaController {
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("tarefas", tarefaService.listarTodas());
-        return "lista-tarefas";
+         model.addAttribute("tarefa", new TarefaEntity()); 
+        return "index";
     }
 
     // Exibe o formulário para adicionar uma nova tarefa
@@ -50,7 +53,15 @@ public class TarefaController {
         }
         return "redirect:/tarefas";
     }
-
+@GetMapping("/editar/json/{id}")
+@ResponseBody
+public ResponseEntity<TarefaEntity> editarTarefaJson(@PathVariable Long id) {
+    TarefaEntity tarefa = tarefaService.buscarPorId(id);
+    if (tarefa != null) {
+        return ResponseEntity.ok(tarefa);
+    }
+    return ResponseEntity.notFound().build();
+}
     // Exclui uma tarefa
     @GetMapping("/deletar/{id}")
     public String deletarTarefa(@PathVariable Long id) {

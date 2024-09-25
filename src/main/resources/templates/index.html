@@ -11,7 +11,7 @@
         <h1 class="my-4">Lista de Tarefas Online</h1>
         
         <!-- Botão para abrir o modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formTarefaModal">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formTarefaModal" onclick="document.getElementById('modalLabel').textContent='Nova Tarefa';">
             Nova Tarefa
         </button>
 
@@ -33,10 +33,10 @@
                     <td th:text="${tarefa.descricao}"></td>
                     <td th:text="${tarefa.concluida ? 'Sim' : 'Não'}"></td>
                     <td>
-                        <button type="button" class="btn btn-warning editarBtn" th:attr="data-id=${filme.id}" data-toggle="modal" data-target="#formTarefaModal">
+                        <button type="button" class="btn btn-warning editarBtn" th:attr="data-id=${tarefa.id}" data-toggle="modal" data-target="#formTarefaModal">
                             Editar
                         </button>
-                        <a th:href="@{/tarefas/deletar/{id}(id=${tarefa.id})}" class="btn btn-danger">Deletar</a>
+                        <a th:href="@{/tarefas/deletar/{id}(id=${tarefa.id})}" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja deletar esta tarefa?');">Deletar</a>
                     </td>
                 </tr>
             </tbody>
@@ -85,7 +85,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Script para manipular o modal de edição -->
-    <script src="..\static\js\script.js"></script>     
+    <script th:src="@{/js/script.js}"></script>    
     </script>
 </body>
 </html>

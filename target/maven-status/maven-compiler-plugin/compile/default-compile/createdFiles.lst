@@ -1,0 +1,5 @@
+com\pi\lista_de_tarefas\Repository\TarefaRepository.class
+com\pi\lista_de_tarefas\Controller\TarefaController.class
+com\pi\lista_de_tarefas\service\TarefaService.class
+com\pi\lista_de_tarefas\ListaDeTarefasApplication.class
+com\pi\lista_de_tarefas\Model\TarefaEntity.class
